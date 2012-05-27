@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, RAMbandwidthActivity!</string>
+    <string name="app_name">RAMbandwidth</string>
+    <string name="reproduce">to reproduce on Ubuntu PC: \n sudo apt-get install mbw \n mbw -t1 20 -n 20</string>
+
+</resources>
