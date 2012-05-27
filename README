@@ -1,0 +1,40 @@
+Introduction
+
+
+It seems that many people assume that 1.2 GHz dual core should be almost as fast as a PC CPU running on a similar frequency. They're wrong.
+
+ARM cores are indeed more power efficient per square mm of surface on a same production process than Intel x86 and AMD64 architecture processors. Most of the efficiency comes from a simpler and more space efficient instruction set, but that advantage typically benefits only front-end of the CPU, which is not the biggest spender of those precious miliwatts. 
+
+The other reasons why modern dual or quad core mobile phones can run on a fraction of power that notebook or desktop (PC) CPUs need: 
+
+less computation units on CPU die (less SIMD, ALU, etc units)
+smaller cache than PC CPUs
+power gating parts of CPU (but laptop and desktop CPUs also do this for a number of years)
+significantly slower DRAM interface  than PC CPUs, using slower DDR RAM (LPDDR2)
+RAM speed significantly impacts many parts of phone performance. Executing complex JavaScript, image or video processing, Web page rendering are just some of the tasks that significantly benefit from having more RAM bandwidth. 
+
+Your ARM device having significantly less of RAM bandwidth is also a big reason why you will probably avoid developing software on your new shiny ASUS Transformer Prime tablet/laptop (though I would certainly try:) )
+
+So how much slower is your Android cell phone RAM than your PC RAM?
+
+
+Unfortunately, I couldn't find any RAM bench-marking software that would run both on a Linux PC and on a un-rooted android device. There is a nice port of NBench, but NBench is a bigger benchmark and it needs some time before it prints out the one thing we need, the memory index. Also, it doesn't output MB/sec number, which is kind of unfortunate, since it's a really clear metric. 
+
+So I found the really simplistic mbw (apt-get install mbw), made it even more simple (removed memcpy tests and left only the dumb array assignment part), and made Android NDK version of it. 
+
+
+Source here. Be sure to close any apps before running it on a PC or your phone. Default array size being copied is 20 MB (the app needs 40 MB to perform the test) to better support low memory devices. 
+
+Here are some results (20MB array size, 20 repetitions avg, run "mbw -t1 20 -n 20", default settings on RAMbandwidth ):
+
+~2200 MB/sec - Intel Core 2 E8200, PC 6400 DDR2 RAM, Desktop PC from 2008.
+~1100 MB/sec - Intel Core duo L2400, PC 5300 DDR2 RAM on a  Thinkpad X60S laptop from 2006. 
+and our mobile contenters 
+~500 MB/sec - Samsung  Galaxy S2 (2011)
+~250 MB/sec - HTC Desire (2010)
+~55 MB/sec - HTC Magic (2009, had to use smaller 10MB array size because of limited RAM available) 
+
+
+Samsung Galaxy S2 sometimes reports around 440 MB/sec, and sometimes 550 MB/sec. I guess it depends where kernel allocates the memory, maybe one of the memory banks shares the bus with the GPU, GSM CPU or some other greedy device. 
+
+It should be easy to post some test results of your own hardware, so please share. 
